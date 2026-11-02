@@ -34,13 +34,16 @@ app/
   layout.js
   page.js
 components/
+  AboutSection/
+  Benefits/
+  Events/
   HeroSection/
   LiquidEther/
   Navbar/
 public/
 ```
 
-The root layout defines page metadata and theme initialization. The homepage composes the Navbar and HeroSection. The GDGC logo is in `public/gdgc-logo.png`.
+The root layout defines page metadata and theme initialization. The homepage composes the Navbar, HeroSection, AboutSection, a temporary blank Benefits placeholder, and the Events section in that order. Team and Footer components are not currently present in this project. The Events section uses the app's native scrolling with GSAP ScrollTrigger; the project does not initialize Lenis. Five event images (`public/GDGC-EVENT-1.jpg` through `public/GDGC-EVENT-5.jpg`) are configured in numeric order in `components/Events/eventsData.js`. The GDGC logo is in `public/gdgc-logo.png`.
 
 ## Branding and asset review
 
