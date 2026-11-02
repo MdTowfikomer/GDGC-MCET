@@ -403,11 +403,12 @@ html {
 
   .hero-content {
     width: calc(100% - 32px);
+    top: var(--hero-content-top, clamp(72px, 10svh, 92px));
   }
 
   .hero-headline {
     column-gap: clamp(6px, 2vw, 12px);
-    font-size: clamp(2rem, 8.7vw, 3.5rem);
+    font-size: clamp(2.85rem, 8.5vw, 4rem);
   }
 
   .hero-description {
@@ -427,8 +428,8 @@ html {
     transform: translateX(-50%);
     width: 100vw;
     max-width: none;
-    height: 70vh;
-    height: 70svh;
+    height: 64vh;
+    height: 64svh;
     z-index: 10;
   }
 
@@ -512,7 +513,7 @@ html {
 
   .hero-headline {
     column-gap: 7px;
-    font-size: clamp(2rem, 9vw, 2.7rem);
+    font-size: clamp(2.75rem, 10vw, 3.5rem);
   }
 
   .hero-description {
