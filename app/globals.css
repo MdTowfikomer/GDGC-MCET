@@ -1,0 +1,559 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:wght@300;400;600;700;800&display=swap');
+
+/* ─────────────────────────────────────────────────────────────────────────
+   THEME TOKENS
+
+   Every color that should adapt to light / dark mode is defined here as a
+   CSS custom property. The default (`:root`) values match the original
+   light palette of the site, so the look is unchanged when no theme is
+   set. `[data-theme="dark"]` overrides those values to produce the dark
+   variant. The theme is applied by setting `data-theme="dark"` on the
+   <html> element (see `app/layout.js` and the theme toggle button).
+
+   Keeping every theme decision in one block makes it easy to tweak the
+   palette later — we never have to chase hex values through the rest of
+   the stylesheet.
+   ───────────────────────────────────────────────────────────────────────── */
+
+:root,
+[data-theme="light"] {
+  --font-inter: 'Inter', sans-serif;
+  --color-bg: #F9F8FF;
+  --color-bg-alt: #ffffff;
+  --color-text: #060607;
+  --color-text-muted: #555555;
+  --color-text-subtle: #888888;
+  --color-accent: #0016EC;
+  --color-headline-strong: #111827;
+  --color-headline-warm: #D88700;
+  --color-accent-soft: #D9E6FF;
+  --color-border: #D9E6FF;
+  --color-btn-dark-bg: #2B2E3A;
+  --color-btn-dark-text: #D4D5D7;
+  --color-btn-light-bg: #E3E5EE;
+  --color-btn-light-text: #2B2E3A;
+  --color-btn-sm-bg: #E4E6EF;
+}
+
+[data-theme="dark"] {
+  --color-bg: #0A0A0C;
+  --color-bg-alt: #131318;
+  --color-text: #F9F8FF;
+  --color-text-muted: #A8A8AE;
+  --color-text-subtle: #6E6E76;
+  --color-accent: #4A83FF;
+  --color-headline-strong: #F4F6FC;
+  --color-headline-warm: #FFC15A;
+  --color-accent-soft: #1B2540;
+  --color-border: #1F2942;
+  --color-btn-dark-bg: #F9F8FF;
+  --color-btn-dark-text: #060607;
+  --color-btn-light-bg: #1F2942;
+  --color-btn-light-text: #F9F8FF;
+  --color-btn-sm-bg: #1F2942;
+}
+
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+html, body {
+  overscroll-behavior: none;
+  width: 100%;
+  min-height: 100%;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Site-wide font family — Inter, matching the hero headline. Elements
+     apply their own weight and letter spacing where needed. We deliberately do NOT set those
+     globally on the body, because cascading semibold + -7% tracking onto
+     every paragraph, button and small UI label makes body copy feel heavy
+     and lets characters overlap. */
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  /* Smooth color crossfade when the user toggles themes. Limited to color
+     properties so it doesn't accidentally animate layout-affecting things. */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+body {
+  overflow: visible;
+}
+
+img, svg, video {
+  pointer-events: none;
+  max-width: 100%;
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
+
+html {
+  scrollbar-width: none;
+}
+
+@font-face{
+  font-family: "Aeonik";
+  src: url('/fonts/Aeonik/Aeonik-Regular.otf') format('opentype');
+}
+@font-face{
+  font-family: "AeonikBold";
+  src: url('/fonts/Aeonik/Aeonik-Bold.otf') format('opentype');
+}
+@font-face{
+  font-family: "AeonikMedium";
+  src: url('/fonts/Aeonik/Aeonik-Medium.otf') format('opentype');
+}
+ 
+#loader {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  inset: 0;
+  z-index: 100002;
+  touch-action: none;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  background-color: black;
+}
+
+#loader-counter {
+  color: #F9F8FF;
+  font-size: 6vw;
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.07em;
+  padding: 2vw 3vw;
+  pointer-events: none;
+}
+
+/* ── HERO SECTION ── */
+
+#hero-section {
+  width: 100%;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg);
+}
+
+/* Parallax layer wrappers — direct children of #hero-section.
+   Each fills the hero so inner absolute children keep their original
+   centering. parallax-js applies translate3d() transforms on these. */
+.hero-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hero-char {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hero-content-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: absolute;
+  top: var(--hero-content-top, clamp(16px, 3vh, 32px));
+  left: 50%;
+  width: min(100% - 32px, 1100px);
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .hero-content {
+    margin-top: clamp(2px, 0.5vh, 5px);
+  }
+}
+
+.hero-headline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  column-gap: clamp(8px, 1.3vw, 18px);
+  margin: 0;
+  font-family: "Caveat", cursive;
+  font-size: clamp(3rem, 5vw, 5rem);
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 1;
+}
+
+.hero-headline-word {
+  display: inline-block;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hero-headline-build {
+  color: var(--color-headline-strong);
+}
+
+.hero-headline-learn {
+  color: var(--color-accent);
+}
+
+.hero-headline-innovate {
+  color: var(--color-headline-warm);
+}
+
+.hero-description {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: clamp(8px, 1.5vh, 14px) 0 0;
+  color: var(--color-text-muted);
+  font-size: clamp(0.875rem, 1.25vw, 1.125rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.hero-description-line {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Animated fluid background layer (LiquidEther). Sits beneath all
+   parallax layers (which start at z-index 4). Pointer events are
+   disabled because the fluid simulation listens for mouse moves on
+   `window` directly and uses the container rect for hit-testing. */
+#hero-bg-fluid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+#hero-img {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: 80vh;
+  z-index: 10;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#hero-img picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+#hero-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+#hero-stroke-1 {
+  position: absolute;
+  top: 65%;
+  left: -2%;
+  transform: translateY(-50%);
+  width: 22vw;
+  height: 32vh;
+  pointer-events: none;
+  /* ABOVE the heading text */
+  z-index: 11;
+  overflow: hidden;
+  width: 0%;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#hero-stroke-1 img {
+  width: 22vw;
+  height: 100%;
+  object-fit: cover;
+  /* Use mask + background-color to get exact #D9E6FF */
+  visibility: hidden;
+}
+
+#hero-stroke-1::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-accent-soft);
+  -webkit-mask-image: url('/Svg_Stroke.png');
+  mask-image: url('/Svg_Stroke.png');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  pointer-events: none;
+}
+
+#hero-stroke-2 {
+  position: absolute;
+  top: 12%;
+  right: 0%;
+  width: 16vw;
+  height: 26vh;
+  transform: rotateY(180deg);
+  pointer-events: none;
+  /* UNDER the heading text */
+  z-index: 4;
+  overflow: hidden;
+  width: 0%;
+  opacity: 0;
+  visibility: hidden;
+}
+
+#hero-stroke-2 img {
+  width: 16vw;
+  height: 100%;
+  object-fit: cover;
+  visibility: hidden;
+}
+
+#hero-stroke-2::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--color-accent-soft);
+  -webkit-mask-image: url('/Svg_Stroke.png');
+  mask-image: url('/Svg_Stroke.png');
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  pointer-events: none;
+}
+
+#hero-heading {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max-content;
+  max-width: calc(100% - 24px);
+  color: rgba(177, 196, 224, 0.46);
+  font-family: var(--font-inter), 'Inter', sans-serif;
+  z-index: 5;
+  font-size: clamp(2.125rem, 10.5vw, 12rem);
+  font-weight: 700;
+  letter-spacing: -0.075em;
+  text-transform: uppercase;
+  pointer-events: none;
+  white-space: nowrap;
+  line-height: 1;
+  -webkit-text-stroke: 1px rgba(112, 140, 180, 0.36);
+  text-shadow: 0 1px 5px rgba(73, 104, 151, 0.14);
+}
+
+.hero-word-space {
+  display: inline-block;
+  width: clamp(10px, 1.5vw, 24px);
+  font-size: 0;
+  line-height: 0;
+}
+
+.hero-word {
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  #loader-counter {
+    font-size: 13vw;
+    padding-right: 6.5vw;
+    padding-bottom: 11vw;
+  }
+
+  #hero-section {
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+  .hero-content {
+    width: calc(100% - 32px);
+  }
+
+  .hero-headline {
+    column-gap: clamp(6px, 2vw, 12px);
+    font-size: clamp(2rem, 8.7vw, 3.5rem);
+  }
+
+  .hero-description {
+    margin-top: 8px;
+    font-size: clamp(0.875rem, 3.8vw, 1rem);
+    line-height: 1.45;
+  }
+
+  #hero-bg-fluid {
+    opacity: 0.18;
+  }
+
+  #hero-img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100vw;
+    max-width: none;
+    height: 70vh;
+    height: 70svh;
+    z-index: 10;
+  }
+
+  #hero-img picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  #hero-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  #hero-heading {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: max-content;
+    max-width: calc(100% - 24px);
+    font-size: clamp(2.125rem, 10.5vw, 5rem);
+    letter-spacing: -0.075em;
+    line-height: 1;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  #hero-stroke-1 {
+    top: 68%;
+    left: 3%;
+    width: 30vw;
+    height: 18vh;
+  }
+
+  #hero-stroke-1 img {
+    width: 30vw;
+  }
+
+  #hero-stroke-2 {
+    top: 14%;
+    right: -1%;
+    width: 26vw;
+    height: 16vh;
+  }
+
+  #hero-stroke-2 img {
+    width: 26vw;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero-image-layer {
+    left: 0;
+    width: 100vw;
+    max-width: none;
+  }
+
+  #hero-img {
+    width: 100%;
+    max-width: none;
+  }
+
+  #hero-img img {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  #hero-img {
+    height: 72svh;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-content {
+    width: calc(100% - 24px);
+  }
+
+  .hero-headline {
+    column-gap: 7px;
+    font-size: clamp(2rem, 9vw, 2.7rem);
+  }
+
+  .hero-description {
+    font-size: clamp(0.875rem, 4vw, 0.95rem);
+  }
+
+  #hero-heading {
+    font-size: clamp(2.125rem, 10.5vw, 3.25rem);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: calc(100% - 20px);
+  }
+
+  #hero-img {
+    bottom: 0;
+  }
+
+  #hero-stroke-1 {
+    top: 70%;
+    width: 32vw;
+    height: 16vh;
+  }
+
+  #hero-stroke-1 img {
+    width: 32vw;
+  }
+
+  #hero-stroke-2 {
+    top: 12%;
+    width: 28vw;
+    height: 14vh;
+  }
+
+  #hero-stroke-2 img {
+    width: 28vw;
+  }
+}
+
+@media (max-width: 360px) {
+  #hero-heading {
+    font-size: clamp(2rem, 10.5vw, 2.375rem);
+  }
+}
