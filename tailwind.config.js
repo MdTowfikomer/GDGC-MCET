@@ -31,16 +31,12 @@ module.exports = {
       },
     },
     fontFamily: {
-      // Every named family resolves to Inter so any existing
-      // `font-Aeonik`/`font-AeonikMedium`/`font-AeonikBold` class — and the
-      // default `font-sans` — silently picks up the site-wide typeface
-      // without touching every component.
-      sans: ["var(--font-inter)", "Inter", "sans-serif"],
-      Inter: ["var(--font-inter)", "Inter", "sans-serif"],
-      Aeonik: ["var(--font-inter)", "Inter", "sans-serif"],
-      AeonikBold: ["var(--font-inter)", "Inter", "sans-serif"],
-      AeonikMedium: ["var(--font-inter)", "Inter", "sans-serif"],
-      caveat: ["'Caveat'", "cursive"],
+      sans: ["var(--font-aeonik)", "sans-serif"],
+      Inter: ["var(--font-aeonik)", "sans-serif"],
+      Aeonik: ["var(--font-aeonik)", "sans-serif"],
+      AeonikBold: ["var(--font-aeonik)", "sans-serif"],
+      AeonikMedium: ["var(--font-aeonik)", "sans-serif"],
+      caveat: ["var(--font-aeonik)", "sans-serif"],
     },
   },
   plugins: [

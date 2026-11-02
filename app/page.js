@@ -5,6 +5,7 @@ import HeroSection from "@/components/HeroSection/HeroSection";
 import AboutSection from "@/components/AboutSection/AboutSection";
 import BenefitsPlaceholder from "@/components/Benefits/BenefitsPlaceholder";
 import Events from "@/components/Events/Events";
+import Team from "@/components/Team/Team";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <AboutSection />
       <BenefitsPlaceholder />
       <Events />
+      <Team />
     </div>
   );
 }
