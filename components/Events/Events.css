@@ -231,6 +231,7 @@
 
   .events-section.is-animated .events-deck {
     height: 72svh;
+    perspective: none;
   }
 
   .events-section.is-animated .event-card {
@@ -238,6 +239,7 @@
     height: 72svh;
     max-height: 680px;
     border-radius: 18px;
+    box-shadow: 0 6px 18px rgb(12 24 54 / 10%);
   }
 
   .event-card {

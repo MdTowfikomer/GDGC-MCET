@@ -1,7 +1,8 @@
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { eventMotionSettings } from "./eventMotionSettings";
 
-export function createEventsAnimation(section, cards, eventCount) {
+export function createEventsAnimation(section, cards) {
   gsap.registerPlugin(ScrollTrigger);
 
   const media = gsap.matchMedia();
@@ -14,12 +15,22 @@ export function createEventsAnimation(section, cards, eventCount) {
       reduceMotion: "(prefers-reduced-motion: reduce)",
     },
     (context) => {
-      if (context.conditions.reduceMotion) return undefined;
+      if (context.conditions.reduceMotion || cards.length < 2) return undefined;
 
-      const { desktop, tablet } = context.conditions;
-      const stackOffset = desktop ? 28 : tablet ? 20 : 14;
-      const scaleStep = desktop ? 0.045 : 0.03;
-      const rotationX = desktop ? 35 : tablet ? 22 : 12;
+      const { desktop, tablet, mobile } = context.conditions;
+      const settings = () => eventMotionSettings(
+        { desktop, tablet }, section.clientHeight, cards.length
+      );
+      const { stackOffset, scaleStep, rotationX, scrub, initialHold } = settings();
+      const navbarHeight = () => document.querySelector(".navbar")?.offsetHeight ?? 0;
+      const exitY = (card) => {
+        // Layout offsets stay stable while GSAP transforms and pins the deck.
+        let top = 0;
+        for (let node = card; node && node !== section; node = node.offsetParent) {
+          top += node.offsetTop;
+        }
+        return -(navbarHeight() + top + card.offsetHeight + 24);
+      };
 
       section.classList.add("is-animated");
 
@@ -28,43 +39,28 @@ export function createEventsAnimation(section, cards, eventCount) {
         y: (index) => index * stackOffset,
         scale: (index) => 1 - index * scaleStep,
         rotationX: 0,
+        // Keep phone cards on the same rendering layer across the pin boundary.
+        force3D: mobile ? true : "auto",
+        willChange: mobile ? "transform" : "auto",
         transformOrigin: "center bottom",
       });
 
-      const timeline = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: () => {
-            const navbarHeight =
-              document.querySelector(".navbar")?.getBoundingClientRect().height ?? 0;
-            return `top top+=${navbarHeight}`;
-          },
-          end: () => `+=${window.innerHeight * eventCount}`,
-          pin: section,
-          pinSpacing: true,
-          scrub: 1,
-          anticipatePin: 1,
-          invalidateOnRefresh: true,
-        },
-      });
+      // Assemble the full timeline before ScrollTrigger measures and pins it.
+      const timeline = gsap.timeline({ paused: true });
+      if (initialHold) timeline.to({}, { duration: initialHold });
 
-      for (let index = 0; index < cards.length; index += 1) {
+      // Let the final picture leave with the section instead of peeling it into
+      // an empty deck and spending another full swipe on the blank space.
+      for (let index = 0; index < cards.length - 1; index += 1) {
         timeline.to(
           cards[index],
           {
-            y: () => {
-              const card = cards[index];
-              const bounds = card.getBoundingClientRect();
-              const currentY = Number(gsap.getProperty(card, "y")) || 0;
-              const exitClearance = Math.max(24, window.innerHeight * 0.02);
-
-              return currentY - bounds.bottom - exitClearance;
-            },
+            y: () => exitY(cards[index]),
             rotationX,
             duration: 1,
             ease: "none",
           },
-          index
+          index + initialHold
         );
 
         if (index < cards.length - 1) {
@@ -76,16 +72,33 @@ export function createEventsAnimation(section, cards, eventCount) {
               duration: 1,
               ease: "none",
             },
-            index
+            index + initialHold
           );
         }
       }
 
+      const scrollTrigger = ScrollTrigger.create({
+        animation: timeline,
+        trigger: section,
+        start: () => `top top+=${navbarHeight()}`,
+        end: () => `+=${settings().scrollDistance}`,
+        pin: section,
+        pinSpacing: true,
+        scrub,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+        onToggle: ({ isActive }) => {
+          if (!mobile) {
+            gsap.set(cards, { willChange: isActive ? "transform" : "auto" });
+          }
+        },
+      });
+
       return () => {
-        timeline.scrollTrigger?.kill();
+        scrollTrigger.kill();
         timeline.kill();
         section.classList.remove("is-animated");
-        gsap.set(cards, { clearProps: "transform,zIndex" });
+        gsap.set(cards, { clearProps: "transform,zIndex,willChange,transformOrigin" });
       };
     }
   );

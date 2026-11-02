@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import EventCard from "./EventCard";
 import eventsData from "./eventsData";
 import { createEventsAnimation } from "./eventsAnimation";
@@ -9,12 +9,12 @@ import "./Events.css";
 function Events() {
   const sectionRef = useRef(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const section = sectionRef.current;
     if (!section) return undefined;
 
     const cards = Array.from(section.querySelectorAll(".event-card"));
-    return createEventsAnimation(section, cards, eventsData.length);
+    return createEventsAnimation(section, cards);
   }, []);
 
   return (
