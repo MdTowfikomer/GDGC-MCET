@@ -357,15 +357,6 @@ export default function AboutSection() {
                   className="object-cover object-left-bottom"
                 />
               </div>
-              {/* Editorial feathering blend */}
-              <div
-                className="hidden lg:block absolute inset-0 pointer-events-none bg-gradient-to-r from-bg via-transparent to-transparent opacity-90"
-                aria-hidden="true"
-              />
-              <div
-                className="hidden lg:block absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-bg to-transparent opacity-80 pointer-events-none"
-                aria-hidden="true"
-              />
             </div>
           </div>
         </div>
