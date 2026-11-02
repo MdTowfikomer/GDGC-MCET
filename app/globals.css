@@ -1,8 +1,6 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Inter:wght@300;400;600;700;800&display=swap');
-
 /* ─────────────────────────────────────────────────────────────────────────
    THEME TOKENS
 
@@ -20,7 +18,7 @@
 
 :root,
 [data-theme="light"] {
-  --font-inter: 'Inter', sans-serif;
+  --font-aeonik: "Aeonik", sans-serif;
   --color-bg: #F9F8FF;
   --color-bg-alt: #ffffff;
   --color-text: #060607;
@@ -75,7 +73,7 @@ html, body {
      globally on the body, because cascading semibold + -7% tracking onto
      every paragraph, button and small UI label makes body copy feel heavy
      and lets characters overlap. */
-  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-family: var(--font-aeonik), sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
   /* Smooth color crossfade when the user toggles themes. Limited to color
@@ -109,14 +107,23 @@ html {
 @font-face{
   font-family: "Aeonik";
   src: url('/fonts/Aeonik/Aeonik-Regular.otf') format('opentype');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
 }
 @font-face{
-  font-family: "AeonikBold";
+  font-family: "Aeonik";
   src: url('/fonts/Aeonik/Aeonik-Bold.otf') format('opentype');
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
 }
 @font-face{
-  font-family: "AeonikMedium";
+  font-family: "Aeonik";
   src: url('/fonts/Aeonik/Aeonik-Medium.otf') format('opentype');
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
 }
  
 #loader {
@@ -135,7 +142,7 @@ html {
 #loader-counter {
   color: #F9F8FF;
   font-size: 6vw;
-  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-family: var(--font-aeonik), sans-serif;
   font-weight: 600;
   letter-spacing: -0.07em;
   padding: 2vw 3vw;
@@ -199,7 +206,7 @@ html {
   justify-content: center;
   column-gap: clamp(8px, 1.3vw, 18px);
   margin: 0;
-  font-family: "Caveat", cursive;
+  font-family: var(--font-aeonik), sans-serif;
   font-size: clamp(3rem, 5vw, 5rem);
   font-weight: 600;
   letter-spacing: 0;
@@ -365,7 +372,7 @@ html {
   width: max-content;
   max-width: calc(100% - 24px);
   color: rgba(177, 196, 224, 0.46);
-  font-family: var(--font-inter), 'Inter', sans-serif;
+  font-family: var(--font-aeonik), sans-serif;
   z-index: 5;
   font-size: clamp(2.125rem, 10.5vw, 12rem);
   font-weight: 700;

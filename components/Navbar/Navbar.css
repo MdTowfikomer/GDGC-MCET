@@ -5,7 +5,12 @@
   width: 100%;
   min-height: 68px;
   box-sizing: border-box;
-  border-bottom: 2px solid var(--color-accent);
+  border: 0 solid var(--color-accent);
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   background: var(--color-bg-alt);
   color: var(--color-text);
   opacity: 0;
