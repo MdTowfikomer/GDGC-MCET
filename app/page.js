@@ -3,7 +3,7 @@
 import Navbar from "@/components/Navbar/Navbar";
 import HeroSection from "@/components/HeroSection/HeroSection";
 import AboutSection from "@/components/AboutSection/AboutSection";
-import BenefitsPlaceholder from "@/components/Benefits/BenefitsPlaceholder";
+import BenefitsSection from "@/components/Benefits/BenefitsSection";
 import Events from "@/components/Events/Events";
 
 export default function Home() {
@@ -12,7 +12,7 @@ export default function Home() {
       <Navbar />
       <HeroSection />
       <AboutSection />
-      <BenefitsPlaceholder />
+      <BenefitsSection />
       <Events />
     </div>
   );

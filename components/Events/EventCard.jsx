@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 function EventCard({ event, index }) {
   const [imageAvailable, setImageAvailable] = useState(event.imageAvailable);
@@ -19,9 +20,11 @@ function EventCard({ event, index }) {
           <span className="events-image-fallback-label">Event image</span>
         </div>
         {imageAvailable && (
-          <img
+          <Image
             src={event.image}
             alt={event.imageAlt}
+            fill
+            sizes="(max-width: 767px) 94vw, (max-width: 1200px) 86vw, 936px"
             loading={index === 0 ? "eager" : "lazy"}
             decoding="async"
             onError={() => setImageAvailable(false)}
