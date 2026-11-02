@@ -51,24 +51,23 @@ const HeroSection = () => {
     if (!section || !content || !image) return;
 
     const positionContent = () => {
-      const sectionRect = section.getBoundingClientRect();
-      const navbarBottom = navbar?.getBoundingClientRect().bottom ?? sectionRect.top;
-      const contentHeight = content.getBoundingClientRect().height;
-      const sectionTopInViewport = sectionRect.top;
-      const navBottomInSection = Math.max(0, navbarBottom - sectionTopInViewport);
-      let contentTop;
+      // Use offsetHeight so scroll position does NOT alter coordinates
+      const navHeight = navbar ? navbar.offsetHeight : 68;
+      const contentHeight = content.offsetHeight || 120;
+      const sectionHeight = section.clientHeight;
+      const imageOffsetHeight = image.offsetHeight || sectionHeight * 0.6;
+      const imageTop = sectionHeight - imageOffsetHeight;
+      const availableSpace = imageTop - navHeight - contentHeight;
 
+      let contentTop;
       if (window.matchMedia("(min-width: 1024px)").matches) {
-        const imageTop = section.clientHeight - image.offsetHeight;
-        const availableSpace = Math.max(0, imageTop - navBottomInSection - contentHeight);
-        contentTop = navBottomInSection + availableSpace / 2;
+        contentTop = navHeight + Math.max(0, availableSpace) / 2;
       } else {
-        const imageTop = section.clientHeight - image.offsetHeight;
-        const availableSpace = Math.max(0, imageTop - navBottomInSection - contentHeight);
-        contentTop = navBottomInSection + availableSpace / 2;
+        // On mobile, keep text securely anchored in the top hero zone beneath the navbar
+        contentTop = availableSpace > 10 ? navHeight + availableSpace / 2 : navHeight + 12;
       }
 
-      content.style.setProperty("--hero-content-top", `${contentTop}px`);
+      content.style.setProperty("--hero-content-top", `${Math.round(contentTop)}px`);
     };
 
     positionContent();

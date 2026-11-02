@@ -403,6 +403,7 @@ html {
 
   .hero-content {
     width: calc(100% - 32px);
+    top: var(--hero-content-top, clamp(72px, 10svh, 92px));
   }
 
   .hero-headline {
@@ -427,8 +428,8 @@ html {
     transform: translateX(-50%);
     width: 100vw;
     max-width: none;
-    height: 70vh;
-    height: 70svh;
+    height: 64vh;
+    height: 64svh;
     z-index: 10;
   }
 

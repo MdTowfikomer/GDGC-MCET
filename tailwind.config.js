@@ -40,6 +40,7 @@ module.exports = {
       Aeonik: ["var(--font-inter)", "Inter", "sans-serif"],
       AeonikBold: ["var(--font-inter)", "Inter", "sans-serif"],
       AeonikMedium: ["var(--font-inter)", "Inter", "sans-serif"],
+      caveat: ["'Caveat'", "cursive"],
     },
   },
   plugins: [
