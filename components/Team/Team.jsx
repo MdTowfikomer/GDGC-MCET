@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import teamData from "./teamData";
 import "./Team.css";
@@ -274,11 +275,13 @@ function Team() {
                   <small>GDGC MCET</small>
                 </div>
                 {!imageErrors[member.id] && (
-                  <img
+                  <Image
                     className="team-card-image"
                     src={member.image}
                     alt={member.imageAlt}
-                    loading={index === 0 ? "eager" : "lazy"}
+                    fill
+                    sizes="(max-width: 480px) 78vw, (max-width: 767px) 76vw, 320px"
+                    loading="lazy"
                     decoding="async"
                     draggable="false"
                     style={{ visibility: loadedImages[member.id] ? "visible" : "hidden" }}

@@ -21,7 +21,7 @@ export function createEventsAnimation(section, cards) {
       const settings = () => eventMotionSettings(
         { desktop, tablet }, section.clientHeight, cards.length
       );
-      const { stackOffset, scaleStep, rotationX, scrub, initialHold } = settings();
+      const { stackOffset, scaleStep, rotationX, scrub, initialHold, visibleCards } = settings();
       const navbarHeight = () => document.querySelector(".navbar")?.offsetHeight ?? 0;
       const exitY = (card) => {
         // Layout offsets stay stable while GSAP transforms and pins the deck.
@@ -39,6 +39,7 @@ export function createEventsAnimation(section, cards) {
         y: (index) => index * stackOffset,
         scale: (index) => 1 - index * scaleStep,
         rotationX: 0,
+        autoAlpha: (index) => index < visibleCards ? 1 : 0,
         // Keep phone cards on the same rendering layer across the pin boundary.
         force3D: mobile ? true : "auto",
         willChange: mobile ? "transform" : "auto",
@@ -52,29 +53,40 @@ export function createEventsAnimation(section, cards) {
       // Let the final picture leave with the section instead of peeling it into
       // an empty deck and spending another full swipe on the blank space.
       for (let index = 0; index < cards.length - 1; index += 1) {
-        timeline.to(
+        const position = index + initialHold;
+        timeline.fromTo(
           cards[index],
+          { y: 0, scale: 1, rotationX: 0, autoAlpha: 1 },
           {
             y: () => exitY(cards[index]),
             rotationX,
             duration: 1,
             ease: "none",
+            immediateRender: false,
           },
-          index + initialHold
+          position
         );
+        timeline.set(cards[index], { autoAlpha: 0 }, position + 1);
 
-        if (index < cards.length - 1) {
-          timeline.to(
-            cards.slice(index + 1),
-            {
-              y: (stackIndex) => stackIndex * stackOffset,
-              scale: (stackIndex) => 1 - stackIndex * scaleStep,
-              duration: 1,
-              ease: "none",
-            },
-            index + initialHold
-          );
-        }
+        // Only the next visible stack layers need to move. Distant phone cards
+        // stay hidden until their turn, avoiding five large overlapping textures.
+        timeline.fromTo(
+          cards.slice(index + 1, index + 1 + visibleCards),
+          {
+            y: (stackIndex) => (stackIndex + 1) * stackOffset,
+            scale: (stackIndex) => 1 - (stackIndex + 1) * scaleStep,
+            autoAlpha: (stackIndex) => stackIndex < visibleCards - 1 ? 1 : 0,
+          },
+          {
+            y: (stackIndex) => stackIndex * stackOffset,
+            scale: (stackIndex) => 1 - stackIndex * scaleStep,
+            duration: 1,
+            ease: "none",
+            autoAlpha: 1,
+            immediateRender: false,
+          },
+          position
+        );
       }
 
       const scrollTrigger = ScrollTrigger.create({
@@ -98,7 +110,7 @@ export function createEventsAnimation(section, cards) {
         scrollTrigger.kill();
         timeline.kill();
         section.classList.remove("is-animated");
-        gsap.set(cards, { clearProps: "transform,zIndex,willChange,transformOrigin" });
+        gsap.set(cards, { clearProps: "transform,zIndex,willChange,transformOrigin,opacity,visibility" });
       };
     }
   );

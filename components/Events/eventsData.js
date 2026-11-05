@@ -4,8 +4,8 @@ const eventsData = [
     title: "Hacknovate 2025",
     description:
       "A 24-hour national hackathon for bold ideas and real-world innovation.",
-    image: "/GDGC-EVENT-1.jpg",
-    mobileImage: "/HACKNOVATE(MOBILE).jpg",
+    image: "/event-hacknovate.webp",
+    mobileImage: "/event-hacknovate-mobile.webp",
     imageAlt: "Participants collaborating during Hacknovate 2025",
   },
   {
@@ -13,8 +13,8 @@ const eventsData = [
     title: "She Builds",
     description:
       "Women in tech turned creative ideas into interactive web experiences.",
-    image: "/GDGC-EVENT-2.jpg",
-    mobileImage: "/SHE_BUILD(MOBILE).jpg",
+    image: "/event-she-builds.webp",
+    mobileImage: "/event-she-builds-mobile.webp",
     imageAlt: "Students taking part in the She Builds event",
   },
   {
@@ -22,7 +22,7 @@ const eventsData = [
     title: "GDG Ignite",
     description:
       "A community kickoff for tech, challenges, awards, and new opportunities.",
-    image: "/GDGC-EVENT-3.jpg",
+    image: "/event-ignite.webp",
     imageAlt: "Students gathered for the GDG Ignite community kickoff",
   },
   {
@@ -30,8 +30,8 @@ const eventsData = [
     title: "VIBE CASTLE",
     description:
       "A community celebration of technology, collaboration, and innovation.",
-    image: "/GDGC-EVENT-4.jpg",
-    mobileImage: "/VIBE_CASTLE(MOBILE).JPG",
+    image: "/event-vibe-castle.webp",
+    mobileImage: "/event-vibe-castle-mobile.webp",
     imageAlt: "Students enjoying the VIBE CASTLE community event",
   },
   {
@@ -39,8 +39,8 @@ const eventsData = [
     title: "Build with AI 2026",
     description:
       "A hands-on workshop building full-stack apps and web-based AI.",
-    image: "/GDGC-EVENT-5.jpg",
-    mobileImage: "/BUILD_WITH_AI(MOBILE).JPG",
+    image: "/event-build-with-ai.webp",
+    mobileImage: "/event-build-with-ai-mobile.webp",
     imageAlt: "Students building AI projects at the Build with AI workshop",
   },
 ];

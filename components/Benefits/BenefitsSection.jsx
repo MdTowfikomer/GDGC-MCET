@@ -78,10 +78,10 @@ export default function BenefitsSection() {
               <span className={styles.dots} aria-hidden="true"><i /><i /><i /><i /></span>
             </div>
             <Image
-              src="/benefits-students.png"
-              alt="Three students sharing ideas while working together on a laptop"
-              width={1536}
-              height={1024}
+              src="/benefits-event.webp"
+              alt="Students and a mentor reviewing a laptop project together at a GDGC MCET event"
+              width={1280}
+              height={720}
               sizes="(max-width: 767px) 100vw, (max-width: 1200px) 55vw, 650px"
               className={styles.image}
             />

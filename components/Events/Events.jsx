@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import EventCard from "./EventCard";
 import eventsData from "./eventsData";
 import { createEventsAnimation } from "./eventsAnimation";
@@ -8,6 +8,20 @@ import "./Events.css";
 
 function Events() {
   const sectionRef = useRef(null);
+  const [preloadImages, setPreloadImages] = useState(false);
+
+  useEffect(() => {
+    // Warm the small card images before the pinned sequence is reached, so
+    // revealing a deeper stack layer doesn't initiate its download mid-swipe.
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setPreloadImages(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "800px 0px" });
+    observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -32,7 +46,7 @@ function Events() {
       <div className="events-stage">
         <div className="events-deck">
           {eventsData.map((event, index) => (
-            <EventCard key={event.id} event={event} index={index} />
+            <EventCard key={event.id} event={event} index={index} preload={preloadImages} />
           ))}
         </div>
       </div>
