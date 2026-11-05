@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Redaction+35:ital,wght@0,400;0,700;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -19,6 +21,7 @@
 :root,
 [data-theme="light"] {
   --font-aeonik: "Aeonik", sans-serif;
+  --font-redaction: "Redaction 35", serif;
   --color-bg: #F9F8FF;
   --color-bg-alt: #ffffff;
   --color-text: #060607;
@@ -26,7 +29,7 @@
   --color-text-subtle: #888888;
   --color-accent: #0016EC;
   --color-headline-strong: #111827;
-  --color-headline-warm: #D88700;
+  --color-headline-warm: #ED4336;
   --color-accent-soft: #D9E6FF;
   --color-border: #D9E6FF;
   --color-btn-dark-bg: #2B2E3A;
@@ -44,7 +47,7 @@
   --color-text-subtle: #6E6E76;
   --color-accent: #4A83FF;
   --color-headline-strong: #F4F6FC;
-  --color-headline-warm: #FFC15A;
+  --color-headline-warm: #ED4336;
   --color-accent-soft: #1B2540;
   --color-border: #1F2942;
   --color-btn-dark-bg: #F9F8FF;
@@ -124,6 +127,13 @@ html {
   font-style: normal;
   font-weight: 500;
   font-display: swap;
+}
+
+#about h2,
+#benefits-title,
+.events-heading h2,
+.team-heading h2 {
+  font-family: var(--font-redaction);
 }
  
 #loader {
@@ -206,7 +216,7 @@ html {
   justify-content: center;
   column-gap: clamp(8px, 1.3vw, 18px);
   margin: 0;
-  font-family: var(--font-aeonik), sans-serif;
+  font-family: var(--font-redaction);
   font-size: clamp(3rem, 5vw, 5rem);
   font-weight: 600;
   letter-spacing: 0;

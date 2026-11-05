@@ -10,20 +10,30 @@ import LiquidEther from "../LiquidEther/LiquidEther";
 const HERO_LIQUID_COLORS = ["#D9E6FF"];
 
 const { props: heroDesktopImage } = getImageProps({
-  src: "/hero-community.webp",
+  src: "/home-page-hero-1.png",
   alt: "Group portrait",
-  width: 1920,
-  height: 1072,
+  width: 1280,
+  height: 720,
+  sizes: "100vw",
+  loading: "eager",
+  fetchPriority: "high",
+  quality: 82,
+});
+const { props: heroDarkImage } = getImageProps({
+  src: "/home-page-white(mobile).png",
+  alt: "Group portrait",
+  width: 1280,
+  height: 720,
   sizes: "100vw",
   loading: "eager",
   fetchPriority: "high",
   quality: 82,
 });
 const { props: heroMobileImage } = getImageProps({
-  src: "/hero-community-mobile.webp",
+  src: "/home-page-black(mobile).png",
   alt: "Group portrait",
-  width: 810,
-  height: 1440,
+  width: 1080,
+  height: 1920,
   sizes: "100vw",
   quality: 82,
 });
@@ -52,6 +62,7 @@ const SplitChars = ({ text, className, id }) => {
 };
 
 const HeroSection = () => {
+  const [isDarkTheme, setIsDarkTheme] = React.useState(false);
   const sectionRef = useRef(null);
   const imgRef = useRef(null);
   const headingRef = useRef(null);
@@ -62,6 +73,21 @@ const HeroSection = () => {
   const stroke1Ref = useRef(null);
   const stroke2Ref = useRef(null);
   const parallaxInstanceRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const syncTheme = () => {
+      setIsDarkTheme(document.documentElement.dataset.theme === "dark");
+    };
+    const observer = new MutationObserver(syncTheme);
+
+    syncTheme();
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -372,8 +398,12 @@ const HeroSection = () => {
         <div className="hero-layer hero-image-layer" data-depth="0.50" style={{ zIndex: 50 }}>
           <div id="hero-img" ref={imgRef}>
             <picture>
-              <source media="(max-width: 1023.98px)" srcSet={heroMobileImage.srcSet} sizes={heroMobileImage.sizes} />
-              <img {...heroDesktopImage} draggable={false} />
+              <source
+                media="(max-width: 1023.98px)"
+                srcSet={isDarkTheme ? heroDarkImage.srcSet : heroMobileImage.srcSet}
+                sizes={isDarkTheme ? heroDarkImage.sizes : heroMobileImage.sizes}
+              />
+              <img {...(isDarkTheme ? heroDarkImage : heroDesktopImage)} draggable={false} />
             </picture>
           </div>
         </div>

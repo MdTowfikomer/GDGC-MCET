@@ -266,7 +266,11 @@ function Team() {
               <article
                 key={member.id}
                 className={`team-card${activeIndex === index ? " is-active" : ""}`}
-                aria-label={`${member.name}, ${member.designation}`}
+                aria-label={
+                  member.category === "core"
+                    ? member.title
+                    : `${member.category === "tech" ? "Tech" : "Non-Tech"}: ${member.title}`
+                }
                 aria-roledescription="slide"
                 aria-current={activeIndex === index ? "true" : undefined}
               >
@@ -304,9 +308,12 @@ function Team() {
                     </svg>
                   </div>
                   <div className="team-card-content">
-                    {member.department && <p className="team-card-department">{member.department}</p>}
-                    <h3>{member.name}</h3>
-                    <p className="team-card-role">{member.designation}</p>
+                    {member.category !== "core" && (
+                      <p className="team-card-department">
+                        {member.category === "tech" ? "Tech" : "Non-Tech"}
+                      </p>
+                    )}
+                    <h3>{member.title}</h3>
                     {member.memberCount && (
                       <p className="team-card-count">{member.memberCount} members</p>
                     )}
@@ -314,7 +321,7 @@ function Team() {
                       <a
                         className="team-card-profile"
                         href={member.profileLink}
-                        aria-label={`View ${member.name}'s profile`}
+                        aria-label={`View ${member.title}'s profile`}
                       >
                         <svg viewBox="0 0 24 24" aria-hidden="true">
                           <path d="M7 17 17 7M7 7h10v10" />
@@ -347,7 +354,7 @@ function Team() {
                 key={member.id}
                 type="button"
                 className={`team-pagination-dot${activeIndex === index ? " is-active" : ""}`}
-                aria-label={`Go to ${member.name}`}
+                aria-label={`Go to ${member.title}`}
                 aria-current={activeIndex === index ? "true" : undefined}
                 onClick={() => goToIndex(index, 0.62)}
               />
