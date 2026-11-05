@@ -393,8 +393,12 @@
   .team-section {
     --team-card-width: 76vw;
     --team-viewport-height: clamp(390px, 61svh, 560px);
-    gap: 14px;
+    gap: 34px;
     padding-block: 36px;
+  }
+
+  .team-heading > p {
+    margin-bottom: 10px;
   }
 
   .team-heading h2 {
@@ -430,7 +434,7 @@
     justify-content: space-between;
     gap: 14px;
     width: min(100% - 40px, 360px);
-    margin: 8px auto 0;
+    margin: 28px auto 0;
   }
 
   .team-navigation-button {

@@ -349,7 +349,7 @@ const HeroSection = () => {
         </div>
 
         {/* Portrait image (foreground, moves more) */}
-        <div className="hero-layer hero-image-layer" data-depth="0.50" style={{ zIndex: 30 }}>
+        <div className="hero-layer hero-image-layer" data-depth="0.50" style={{ zIndex: 50 }}>
           <div id="hero-img" ref={imgRef}>
             <picture>
               <source media="(max-width: 1023.98px)" srcSet="/hero_img_mobile.png" />

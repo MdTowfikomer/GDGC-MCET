@@ -22,34 +22,54 @@ function Navbar() {
   }, []);
 
   useEffect(() => {
-    const sectionIds = new Set(NAV_ITEMS.map(({ id }) => id));
-    const updateFromHash = () => {
-      const hashSection = window.location.hash.slice(1);
-      if (sectionIds.has(hashSection)) {
-        setActiveSection(hashSection);
+    const sections = NAV_ITEMS.map(({ id }) => document.getElementById(id)).filter(Boolean);
+    let animationFrame = null;
+
+    const updateActiveSection = () => {
+      animationFrame = null;
+      const navbarHeight = document.querySelector(".navbar")?.getBoundingClientRect().height ?? 0;
+      const activationPoint = navbarHeight + 1;
+      let activeSection = null;
+      let nearestSection = null;
+      let nearestDistance = Infinity;
+
+      sections.forEach((section) => {
+        const { top, bottom } = section.getBoundingClientRect();
+        if (top <= activationPoint && bottom > activationPoint) {
+          if (!activeSection || top > activeSection.top) {
+            activeSection = { id: section.id, top };
+          }
+          return;
+        }
+
+        const distance = top > activationPoint ? top - activationPoint : activationPoint - bottom;
+        if (distance < nearestDistance) {
+          nearestSection = section;
+          nearestDistance = distance;
+        }
+      });
+
+      setActiveSection(activeSection?.id ?? nearestSection?.id ?? NAV_ITEMS[0].id);
+    };
+
+    const scheduleActiveSectionUpdate = () => {
+      if (animationFrame === null) {
+        animationFrame = window.requestAnimationFrame(updateActiveSection);
       }
     };
-    updateFromHash();
 
-    const sections = NAV_ITEMS.map(({ id }) => document.getElementById(id)).filter(Boolean);
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleSection = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+    updateActiveSection();
+    window.addEventListener("scroll", scheduleActiveSectionUpdate, { passive: true });
+    window.addEventListener("resize", scheduleActiveSectionUpdate);
+    window.addEventListener("hashchange", scheduleActiveSectionUpdate);
 
-        if (visibleSection) {
-          setActiveSection(visibleSection.target.id);
-        }
-      },
-      { rootMargin: "-68px 0px -45% 0px", threshold: [0, 0.1, 0.5] }
-    );
-
-    window.addEventListener("hashchange", updateFromHash);
-    sections.forEach((section) => observer.observe(section));
     return () => {
-      window.removeEventListener("hashchange", updateFromHash);
-      observer.disconnect();
+      window.removeEventListener("scroll", scheduleActiveSectionUpdate);
+      window.removeEventListener("resize", scheduleActiveSectionUpdate);
+      window.removeEventListener("hashchange", scheduleActiveSectionUpdate);
+      if (animationFrame !== null) {
+        window.cancelAnimationFrame(animationFrame);
+      }
     };
   }, []);
 
@@ -135,7 +155,7 @@ function Navbar() {
           <a
             href="#hero-section"
             className="navbar-brand"
-            aria-label="GDGC on Campus home"
+            aria-label="Google Developer Group at Methodist College of Engineering And Technology home"
             onClick={() => handleNavigation("hero-section")}
           >
             <Image
@@ -146,8 +166,13 @@ function Navbar() {
               unoptimized
             />
             <span className="navbar-brand-name" aria-hidden="true">
-              <span className="navbar-brand-gdgc">GDGC</span>
-              <span className="navbar-brand-campus">ON CAMPUS</span>
+              <span className="navbar-brand-gdgc">Google Developer Group</span>
+              <span className="navbar-brand-affiliation navbar-brand-affiliation-desktop">
+                Methodist College of Engineering And Technology
+              </span>
+              <span className="navbar-brand-affiliation navbar-brand-affiliation-mobile">
+                Methodist College of Engineering
+              </span>
             </span>
           </a>
 

@@ -45,6 +45,7 @@
 
 .navbar-brand-name {
   display: flex;
+  min-width: 0;
   flex-direction: column;
   justify-content: center;
   line-height: 1;
@@ -56,11 +57,17 @@
   letter-spacing: -0.045em;
 }
 
-.navbar-brand-campus {
+.navbar-brand-affiliation {
   margin-top: 4px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.26em;
+  color: #4285f4;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.navbar-brand-affiliation-mobile {
+  display: none;
 }
 
 .navbar-links {
@@ -141,6 +148,25 @@
 .navbar-mobile-panel,
 .navbar-backdrop {
   display: none;
+}
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+  .navbar-brand {
+    gap: 6px;
+  }
+
+  .navbar-brand img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .navbar-brand-gdgc {
+    font-size: 20px;
+  }
+
+  .navbar-brand-affiliation {
+    font-size: 11px;
+  }
 }
 
 @media (max-width: 1023.98px) {
@@ -245,5 +271,45 @@
     padding: 0;
     border: 0;
     background: transparent;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .navbar-inner {
+    padding-inline: clamp(12px, 4.8vw, 32px);
+  }
+
+  .navbar-mobile-controls {
+    margin-left: clamp(8px, 2vw, 14px);
+  }
+
+  .navbar-brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    gap: clamp(4px, 1.5vw, 8px);
+  }
+
+  .navbar-brand img {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+  }
+
+  .navbar-brand-gdgc {
+    font-size: clamp(13px, 4.2vw, 18px);
+  }
+
+  .navbar-brand-affiliation {
+    margin-top: 3px;
+    font-size: clamp(8px, 2.8vw, 11px);
+    overflow-wrap: anywhere;
+  }
+
+  .navbar-brand-affiliation-desktop {
+    display: none;
+  }
+
+  .navbar-brand-affiliation-mobile {
+    display: block;
   }
 }

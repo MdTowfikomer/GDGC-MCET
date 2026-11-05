@@ -6,6 +6,7 @@ import AboutSection from "@/components/AboutSection/AboutSection";
 import BenefitsSection from "@/components/Benefits/BenefitsSection";
 import Events from "@/components/Events/Events";
 import Team from "@/components/Team/Team";
+import Footer from "@/components/Footer/Footer";
 
 export default function Home() {
   return (
@@ -16,6 +17,7 @@ export default function Home() {
       <BenefitsSection />
       <Events />
       <Team />
+      <Footer />
     </div>
   );
 }

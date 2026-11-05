@@ -565,3 +565,14 @@ html {
     font-size: clamp(2rem, 10.5vw, 2.375rem);
   }
 }
+
+@media (max-width: 375.98px) and (max-height: 667.98px) {
+  #hero-img {
+    width: 96vw;
+    height: 62svh;
+  }
+
+  #hero-img img {
+    object-position: center 40%;
+  }
+}
