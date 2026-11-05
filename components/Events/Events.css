@@ -20,6 +20,17 @@
   text-align: center;
 }
 
+@media (min-width: 1201px) {
+  .events-heading {
+    z-index: 0;
+  }
+
+  .events-stage {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 .events-heading > p {
   margin: 0 0 4px;
   color: var(--color-accent);
@@ -192,6 +203,7 @@
   height: clamp(360px, 60svh, 620px);
   min-height: 0;
   backface-visibility: hidden;
+  contain: paint;
 }
 
 @media (min-width: 768px) and (max-width: 1200px) {

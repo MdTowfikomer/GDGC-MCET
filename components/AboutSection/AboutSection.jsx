@@ -349,10 +349,10 @@ export default function AboutSection() {
             <div className="relative w-full max-w-xl lg:max-w-none aspect-[16/10] sm:aspect-[16/10] lg:aspect-[16/9] rounded-2xl md:rounded-3xl overflow-hidden shadow-sm bg-accent/5">
               <div className="absolute inset-y-0 left-0 w-[112%]">
                 <Image
-                  src="/new-about-section-image.JPG"
+                  src="/about-community.webp"
                   alt="GDGC MCET community members posing together after a campus event"
                   fill
-                  priority
+                  loading="lazy"
                   sizes="(max-width: 768px) 112vw, (max-width: 1200px) 56vw, 784px"
                   className="object-cover object-left-bottom"
                 />

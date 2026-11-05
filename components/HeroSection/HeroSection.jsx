@@ -1,12 +1,32 @@
 "use client";
 
 import React, { useEffect, useLayoutEffect, useRef } from "react";
+import Image, { getImageProps } from "next/image";
 import gsap from "gsap";
 import LiquidEther from "../LiquidEther/LiquidEther";
 
 // Module-level constant so the array reference stays stable across renders
 // (otherwise LiquidEther's useEffect would tear down/rebuild WebGL each render).
 const HERO_LIQUID_COLORS = ["#D9E6FF"];
+
+const { props: heroDesktopImage } = getImageProps({
+  src: "/hero-community.webp",
+  alt: "Group portrait",
+  width: 1920,
+  height: 1072,
+  sizes: "100vw",
+  loading: "eager",
+  fetchPriority: "high",
+  quality: 82,
+});
+const { props: heroMobileImage } = getImageProps({
+  src: "/hero-community-mobile.webp",
+  alt: "Group portrait",
+  width: 810,
+  height: 1440,
+  sizes: "100vw",
+  quality: 82,
+});
 
 const SplitChars = ({ text, className, id }) => {
   return (
@@ -320,7 +340,7 @@ const HeroSection = () => {
         {/* Back stroke (behind heading) */}
         <div className="hero-layer" data-depth="0.20" style={{ zIndex: 4 }}>
           <div id="hero-stroke-2" ref={stroke2Ref}>
-            <img src="/Svg_Stroke.png" alt="" draggable="false" />
+            <Image src="/hero-stroke.webp" width={1112} height={878} sizes="32vw" alt="" draggable={false} />
           </div>
         </div>
 
@@ -352,14 +372,8 @@ const HeroSection = () => {
         <div className="hero-layer hero-image-layer" data-depth="0.50" style={{ zIndex: 30 }}>
           <div id="hero-img" ref={imgRef}>
             <picture>
-              <source media="(max-width: 1023.98px)" srcSet="/hero_img_mobile.png" />
-              <img
-                src="/group-img.png"
-                width="2400"
-                height="1340"
-                alt="Group portrait"
-                draggable="false"
-              />
+              <source media="(max-width: 1023.98px)" srcSet={heroMobileImage.srcSet} sizes={heroMobileImage.sizes} />
+              <img {...heroDesktopImage} draggable={false} />
             </picture>
           </div>
         </div>
@@ -367,7 +381,7 @@ const HeroSection = () => {
         {/* Front stroke (top-most) */}
         <div className="hero-layer" data-depth="0.30" style={{ zIndex: 11 }}>
           <div id="hero-stroke-1" ref={stroke1Ref}>
-            <img src="/Svg_Stroke.png" alt="" draggable="false" />
+            <Image src="/hero-stroke.webp" width={1112} height={878} sizes="32vw" alt="" draggable={false} />
           </div>
         </div>
       </div>
