@@ -32,10 +32,11 @@
 }
 
 .team-heading h2 {
+  font-family: var(--font-title);
   margin: 0;
   font-size: clamp(2rem, 3.5vw, 3.5rem);
   font-weight: 700;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.015em;
   line-height: 1;
 }
 
@@ -83,6 +84,10 @@
   background: #101729;
   transform-origin: center center;
   will-change: transform, filter;
+}
+
+.team-card--clone {
+  display: block;
 }
 
 .team-card-fallback,
@@ -470,5 +475,41 @@
   .team-navigation-button,
   .team-pagination-dot {
     transition: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .team-section {
+    height: 100vh;
+    min-height: 100vh;
+    padding-top: clamp(72px, 8.5vh, 92px);
+    padding-bottom: clamp(24px, 3vh, 40px);
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .team-card--clone {
+    display: none !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  .team-section {
+    min-height: auto;
+    padding: 44px 0 32px;
+    overflow: hidden;
+  }
+
+  .team-carousel-viewport {
+    overflow: hidden;
+  }
+
+  .team-carousel-track {
+    padding-inline: 0 !important;
+    gap: 16px;
+  }
+
+  .team-carousel-controls {
+    display: none !important;
   }
 }

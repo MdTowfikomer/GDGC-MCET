@@ -299,7 +299,7 @@ export default function AboutSection() {
                 {/* Line 1: Handwritten Cursive 'What is' */}
                 <span
                   ref={headingScriptRef}
-                  className="block font-caveat text-5xl sm:text-6xl lg:text-6xl text-fg font-bold tracking-wide"
+                  className="block font-title italic text-4xl sm:text-5xl lg:text-6xl text-fg font-normal tracking-normal"
                 >
                   What is
                 </span>
@@ -307,7 +307,7 @@ export default function AboutSection() {
                 {/* Line 2: Bold 'GDGC on Campus?' */}
                 <span
                   ref={headingBoldRef}
-                  className="block text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-fg"
+                  className="block font-title text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-fg"
                 >
                   <span className="text-accent italic font-semibold">
                     GDGC on
@@ -392,7 +392,7 @@ export default function AboutSection() {
             {/* Handwritten Title */}
             <h3
               ref={cursiveTitleRef}
-              className="font-caveat text-4xl sm:text-5xl md:text-5xl lg:text-[3.5rem] text-fg font-bold tracking-wide leading-tight"
+              className="font-title text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] text-fg font-normal tracking-tight leading-tight"
             >
               Learn by Exploring. Grow by Doing.
             </h3>

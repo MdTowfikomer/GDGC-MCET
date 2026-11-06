@@ -20,7 +20,7 @@ const { props: heroDesktopImage } = getImageProps({
   quality: 82,
 });
 const { props: heroDarkImage } = getImageProps({
-  src: "/home-page-white(mobile).png",
+  src: "/new.png",
   alt: "Group portrait",
   width: 1280,
   height: 720,
@@ -29,7 +29,15 @@ const { props: heroDarkImage } = getImageProps({
   fetchPriority: "high",
   quality: 82,
 });
-const { props: heroMobileImage } = getImageProps({
+const { props: heroMobileDarkImage } = getImageProps({
+  src: "/home-page-white(mobile).png",
+  alt: "Group portrait",
+  width: 1080,
+  height: 1920,
+  sizes: "100vw",
+  quality: 82,
+});
+const { props: heroMobileLightImage } = getImageProps({
   src: "/home-page-black(mobile).png",
   alt: "Group portrait",
   width: 1080,
@@ -400,8 +408,8 @@ const HeroSection = () => {
             <picture>
               <source
                 media="(max-width: 1023.98px)"
-                srcSet={isDarkTheme ? heroDarkImage.srcSet : heroMobileImage.srcSet}
-                sizes={isDarkTheme ? heroDarkImage.sizes : heroMobileImage.sizes}
+                srcSet={isDarkTheme ? heroMobileDarkImage.srcSet : heroMobileLightImage.srcSet}
+                sizes={isDarkTheme ? heroMobileDarkImage.sizes : heroMobileLightImage.sizes}
               />
               <img {...(isDarkTheme ? heroDarkImage : heroDesktopImage)} draggable={false} />
             </picture>

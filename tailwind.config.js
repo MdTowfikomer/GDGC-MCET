@@ -32,11 +32,14 @@ module.exports = {
     },
     fontFamily: {
       sans: ["var(--font-aeonik)", "sans-serif"],
+      title: ["var(--font-title)", "Georgia", "serif"],
+      serif: ["var(--font-title)", "Georgia", "serif"],
+      redaction: ["var(--font-title)", "Georgia", "serif"],
       Inter: ["var(--font-aeonik)", "sans-serif"],
       Aeonik: ["var(--font-aeonik)", "sans-serif"],
       AeonikBold: ["var(--font-aeonik)", "sans-serif"],
       AeonikMedium: ["var(--font-aeonik)", "sans-serif"],
-      caveat: ["var(--font-aeonik)", "sans-serif"],
+      caveat: ["var(--font-title)", "serif"],
     },
   },
   plugins: [
