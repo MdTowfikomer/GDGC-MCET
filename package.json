@@ -7,6 +7,7 @@
     "dev": "next dev",
     "build": "next build",
     "deploy": "wrangler deploy",
+    "deploy:pages": "wrangler pages deploy out --project-name gdgc-mcet",
     "start": "next start",
     "lint": "next lint"
   },
