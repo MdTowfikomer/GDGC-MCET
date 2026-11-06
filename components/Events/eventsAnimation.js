@@ -41,8 +41,8 @@ export function createEventsAnimation(section, cards) {
         rotationX: 0,
         autoAlpha: (index) => index < visibleCards ? 1 : 0,
         // Keep phone cards on the same rendering layer across the pin boundary.
-        force3D: mobile ? true : "auto",
-        willChange: mobile ? "transform" : "auto",
+        force3D: true,
+        willChange: "transform",
         transformOrigin: "center bottom",
       });
 

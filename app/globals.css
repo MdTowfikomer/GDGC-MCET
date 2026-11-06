@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Redaction+35:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Redaction+35:ital,wght@0,400;0,700;1,400&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -20,8 +20,10 @@
 
 :root,
 [data-theme="light"] {
-  --font-aeonik: "Aeonik", sans-serif;
-  --font-redaction: "Redaction 35", serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-aeonik: var(--font-sans);
+  --font-redaction: 'Redaction 35', Georgia, serif;
+  --font-title: var(--font-redaction);
   --color-bg: #F9F8FF;
   --color-bg-alt: #ffffff;
   --color-text: #060607;
@@ -130,10 +132,12 @@ html {
 }
 
 #about h2,
+#about h3.font-title,
 #benefits-title,
 .events-heading h2,
 .team-heading h2 {
-  font-family: var(--font-redaction);
+  font-family: var(--font-title);
+  letter-spacing: -0.015em;
 }
  
 #loader {
@@ -513,7 +517,7 @@ html {
 
   #hero-img img {
     object-fit: cover;
-    object-position: center;
+    object-position: center 42%;
   }
 }
 
@@ -583,6 +587,6 @@ html {
   }
 
   #hero-img img {
-    object-position: center 40%;
+    object-position: center 25%;
   }
 }
