@@ -92,9 +92,12 @@ const HeroSection = () => {
         contentTop = navHeight + Math.max(0, availableSpace) / 2;
       } else {
         // On mobile, keep text securely anchored in the top hero zone beneath the navbar
-        contentTop = availableSpace > 10 ? navHeight + availableSpace / 2 : navHeight + 12;
+        contentTop = availableSpace > 16 ? navHeight + availableSpace / 2 : navHeight + 8;
       }
 
+      const contentBottom = contentTop + contentHeight;
+      section.style.setProperty("--hero-content-top", `${Math.round(contentTop)}px`);
+      section.style.setProperty("--hero-content-bottom", `${Math.round(contentBottom)}px`);
       content.style.setProperty("--hero-content-top", `${Math.round(contentTop)}px`);
     };
 
@@ -109,11 +112,20 @@ const HeroSection = () => {
     return () => {
       resizeObserver.disconnect();
       window.removeEventListener("resize", positionContent);
+      section.style.removeProperty("--hero-content-top");
+      section.style.removeProperty("--hero-content-bottom");
       content.style.removeProperty("--hero-content-top");
     };
   }, []);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+
     const headingChars = headingRef.current.querySelectorAll(".hero-char");
     const headlineWords = headlineRef.current.querySelectorAll(".hero-headline-word");
     const descriptionLines = descriptionRef.current.querySelectorAll(".hero-description-line");
@@ -219,6 +231,9 @@ const HeroSection = () => {
       onComplete: () => {
         if (loaderRef.current) {
           loaderRef.current.dataset.complete = "true";
+          loaderRef.current.style.display = "none";
+          loaderRef.current.style.pointerEvents = "none";
+          loaderRef.current.style.visibility = "hidden";
           window.dispatchEvent(new Event("hero-loader-complete"));
         }
       },
