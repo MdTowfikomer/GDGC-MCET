@@ -132,7 +132,13 @@ function Navbar() {
           href={`#${id}`}
           className={`navbar-link${activeSection === id ? " is-active" : ""}`}
           aria-current={activeSection === id ? "location" : undefined}
-          onClick={() => handleNavigation(id)}
+          onClick={(e) => {
+            if (id === "hero-section" && typeof window !== "undefined" && window.scrollY < 40) {
+              window.location.reload();
+            } else {
+              handleNavigation(id);
+            }
+          }}
         >
           {label}
         </a>
@@ -156,7 +162,13 @@ function Navbar() {
             href="#hero-section"
             className="navbar-brand"
             aria-label="Google Developer Group at Methodist College of Engineering And Technology home"
-            onClick={() => handleNavigation("hero-section")}
+            onClick={(e) => {
+              if (typeof window !== "undefined" && window.scrollY < 40) {
+                window.location.reload();
+              } else {
+                handleNavigation("hero-section");
+              }
+            }}
           >
             <Image
               src="/gdgc-logo.png"
